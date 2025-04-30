@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Poetry Day</title>
+  <!--link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"-->
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    @font-face {
+        font-family: 'Poppins';
+        src: url('fonts/Poppins-Regular.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Poppins';
+        src: url('fonts/Poppins-SemiBold.woff2') format('woff2');
+        font-weight: 600;
+        font-style: normal;
+    }
+
+
+    body {
+      margin: 0;
+      padding: 1rem;
+      background: linear-gradient(to right, #1d3557, #457b9d);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    #page-title {
+      font-size: 2.75rem;
+      font-weight: 600;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      margin-bottom: 2rem;
+      text-align: center;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
+      50% { text-shadow: 0 0 18px rgba(255, 255, 255, 0.6); }
+    }
+
+    #app {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      width: 95%;
+      max-width: 500px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 1rem;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      margin: 0;
+      padding: 1.5rem;
+      background: rgba(0,0,0,0.4);
+      font-size: 1.5rem;
+      text-align: center;
+      color: #f1faee;
+    }
+
+    .list {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .list button {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      border: none;
+      background: #f1faee;
+      color: #1d3557;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .list button:hover {
+      background: #a8dadc;
+      transform: scale(1.03);
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 1rem;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    #author-header {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    #author-header img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 0.75rem;
+      border: 3px solid #f1faee;
+    }
+
+    #author-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #f1faee;
+    }
+
+    #author-header .quote {
+      font-style: italic;
+      color: #e0e0e0;
+      margin-top: 0.5rem;
+    }
+
+    .stop {
+      background: #e63946;
+      color: #fff;
+      margin-top: 1rem;
+    }
+
+    .stop:hover {
+      background: #d62839;
+    }
+
+    .back {
+      margin-top: 0.75rem;
+      background: transparent;
+      color: #f1faee;
+      font-size: 0.95rem;
+      text-decoration: underline;
+      border: none;
+      cursor: pointer;
+    }
+
+    .back:hover {
+        color: #1d3557; /* darker color for readability */
+        background: rgba(255, 255, 255, 0.7); /* light translucent background */
+        border-radius: 6px;
+    }
+
+
+    span {
+      flex-grow: 1;
+      text-align: left;
+    }
+
+    button span {
+      padding-left: 0.5rem;
+    }
+
+    .side-quote {
+      position: fixed;
+      top: 50%;
+      width: 200px;
+      color: #f1faee;
+      font-style: italic;
+      opacity: 0.25;
+      font-size: 0.9rem;
+      transform: translateY(-50%);
+      pointer-events: none;
+      line-height: 1.5;
+      animation: floatQuote 6s ease-in-out infinite;
+    }
+
+    @keyframes floatQuote {
+      0%, 100% { transform: translateY(-50%) translateX(0); }
+      50% { transform: translateY(-52%) translateX(5px); }
+    }
+
+    .left-quote {
+      left: 20px;
+      text-align: left;
+    }
+
+    .right-quote {
+      right: 20px;
+      text-align: right;
+    }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #f1faee;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      .side-quote {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="page-title">National Poetry Reading Day</div>
+  <div class="side-quote left-quote">“Poetry is when an emotion has found its thought...”</div>
+  <div class="side-quote right-quote">“...and the thought has found words.”</div>
+  <div id="app">
+    <h1>Choose a Language</h1>
+    <div id="container" class="list"></div>
+  </div>
+  <footer>“A nation that reads is a nation that leads.”</footer>
+  <script>
+    const data = {
+      "Tamil": {
+        "Bharathiyar": {
+          image: "images/authors/bharathiyar.jpg",
+          quote: "இந்தியர்கள் பிரிக்கப்பட்டாலும் ஒரே தாயின் பிள்ளைகள்.",
+          clips: [
+            { label: "Biography", src: "Languages/Tamil/Bharathiyar/bio.mp3" },
+            { label: "Verse 1", src: "Languages/Tamil/Bharathiyar/poem1.mp3" },
+            { label: "Explanation 1", src: "Languages/Tamil/Bharathiyar/meaning1.mp3" },
+            { label: "Verse 2", src: "Languages/Tamil/Bharathiyar/poem2.mp3" },
+            { label: "Explanation 2", src: "Languages/Tamil/Bharathiyar/meaning2.mp3" }
+          ]
+        },
+        "Tamilanban": {
+          image: "images/authors/tamilanban.jpg",
+          quote: "ஹிருதயம் உண்மையான பக்தியின் கருவி.",
+          clips: [
+            { label: "Biography", src: "Languages/Tamil/Tamilanban/bio.mp3" },
+            { label: "Verse 1", src: "Languages/Tamil/Tamilanban/poem1.mp3" },
+            { label: "Explanation 1", src: "Languages/Tamil/Tamilanban/meaning1.mp3" },
+            { label: "Verse 2", src: "Languages/Tamil/Tamilanban/poem2.mp3" },
+            { label: "Explanation 2", src: "Languages/Tamil/Tamilanban/meaning2.mp3" }
+          ]
+        }
+      },
+      "Hindi": {
+        "Dwarika Prasad Maheshwari": {
+          image: "images/authors/dwarika_prasad_maheshwari.jpg",
+          quote: "सच्ची कविता राष्ट्र की आत्मा को दर्शाती है।",
+          clips: [
+            { label: "Biography", src: "Languages/Hindi/DwarikaPrasadMaheshwari/bio.mp3" },
+            { label: "Verse 1", src: "Languages/Hindi/DwarikaPrasadMaheshwari/poem1.mp3" },
+            { label: "Explanation 1", src: "Languages/Hindi/DwarikaPrasadMaheshwari/meaning1.mp3" },
+            { label: "Verse 2", src: "Languages/Hindi/DwarikaPrasadMaheshwari/poem2.mp3" },
+            { label: "Explanation 2", src: "Languages/Hindi/DwarikaPrasadMaheshwari/meaning2.mp3" }
+          ]
+        },
+        "Kabeer": {
+          image: "images/authors/kabeer.jpg",
+          quote: "जहाँ कहीं तुम हो वही आरंभिक बिंदु है।",
+          clips: [
+            { label: "Biography", src: "Languages/Hindi/Kabeer/bio.mp3" },
+            { label: "Verse 1", src: "Languages/Hindi/Kabeer/poem1.mp3" },
+            { label: "Explanation 1", src: "Languages/Hindi/Kabeer/meaning1.mp3" },
+            { label: "Verse 2", src: "Languages/Hindi/Kabeer/poem2.mp3" },
+            { label: "Explanation 2", src: "Languages/Hindi/Kabeer/meaning2.mp3" }
+          ]
+        }
+      },
+      "Sanskrit": {
+        "Bhartrhari": {
+          image: "images/authors/bhartrhari.jpg",
+          quote: "मनः स्वस्य सारं वाक्येषु प्रतिबिम्बति।",
+          clips: [
+            { label: "Biography", src: "Languages/Sanskrit/Bhartrhari/bio.mp3" },
+            { label: "Verse 1", src: "Languages/Sanskrit/Bhartrhari/poem1.mp3" },
+            { label: "Explanation 1", src: "Languages/Sanskrit/Bhartrhari/meaning1.mp3" },
+            { label: "Verse 2", src: "Languages/Sanskrit/Bhartrhari/poem2.mp3" },
+            { label: "Explanation 2", src: "Languages/Sanskrit/Bhartrhari/meaning2.mp3" }
+          ]
+        }
+      },
+      "French": {
+        "Victor Hugo": {
+          image: "images/authors/victor_hugo.jpg",
+          quote: "La musique exprime ce qui ne peut être dit par des mots.",
+          clips: [
+            { label: "Biography", src: "Languages/French/Victor-Hugo/bio.mp3" },
+            { label: "Verse 1", src: "Languages/French/Victor-Hugo/poem1.mp3" },
+            { label: "Explanation 1", src: "Languages/French/Victor-Hugo/meaning1.mp3" },
+            { label: "Verse 2", src: "Languages/French/Victor-Hugo/poem2.mp3" },
+            { label: "Explanation 2", src: "Languages/French/Victor-Hugo/meaning2.mp3" }
+          ]
+        },
+        "Alphonse de Lamartine": {
+          image: "images/authors/alphonse_de_lamartine.jpg",
+          quote: "Un cœur, un esprit, un amour.",
+          clips: [
+            { label: "Biography", src: "Languages/French/Alphonse-de-Lamartine/bio.mp3" },
+            { label: "Verse 1", src: "Languages/French/Alphonse-de-Lamartine/poem1.mp3" },
+            { label: "Explanation 1", src: "Languages/French/Alphonse-de-Lamartine/meaning1.mp3" },
+            { label: "Verse 2", src: "Languages/French/Alphonse-de-Lamartine/poem2.mp3" },
+            { label: "Explanation 2", src: "Languages/French/Alphonse-de-Lamartine/meaning2.mp3" }
+          ]
+        }
+      }
+    };
+
+    const container = document.getElementById("container");
+    const audio = new Audio();
+
+    function showLanguages() {
+      container.innerHTML = "";
+      document.querySelector("#app h1").textContent = "Choose a Language";
+      Object.keys(data).forEach(lang => {
+        const btn = document.createElement("button");
+        btn.textContent = lang;
+        btn.onclick = () => showAuthors(lang);
+        container.appendChild(btn);
+      });
+    }
+
+    function showAuthors(lang) {
+      container.innerHTML = "";
+      document.querySelector("#app h1").textContent = lang;
+      Object.entries(data[lang]).forEach(([name, authorData]) => {
+        const btn = document.createElement("button");
+        btn.onclick = () => showOptions(lang, name);
+        const img = document.createElement("img");
+        img.src = authorData.image;
+        img.className = "avatar";
+        btn.appendChild(img);
+        const span = document.createElement("span");
+        span.textContent = name;
+        btn.appendChild(span);
+        container.appendChild(btn);
+      });
+      const backBtn = document.createElement("button");
+      backBtn.textContent = "← Back";
+      backBtn.className = "back";
+      backBtn.onclick = showLanguages;
+      container.appendChild(backBtn);
+    }
+
+    function showOptions(lang, author) {
+      const authorData = data[lang][author];
+      container.innerHTML = `
+        <div id="author-header">
+          <img src="${authorData.image}" alt="${author}" />
+          <h2>${author}</h2>
+          <p class="quote">${authorData.quote}</p>
+        </div>
+      `;
+      document.querySelector("#app h1").textContent = `${lang} – ${author}`;
+      authorData.clips.forEach(clip => {
+        const btn = document.createElement("button");
+        btn.textContent = clip.label;
+        btn.onclick = () => play(clip.src);
+        container.appendChild(btn);
+      });
+      const stopBtn = document.createElement("button");
+      stopBtn.textContent = "Stop";
+      stopBtn.className = "stop";
+      stopBtn.onclick = () => { audio.pause(); audio.currentTime = 0; };
+      container.appendChild(stopBtn);
+      const backBtn = document.createElement("button");
+      backBtn.textContent = "← Back";
+      backBtn.className = "back";
+      backBtn.onclick = () => showAuthors(lang);
+      container.appendChild(backBtn);
+    }
+
+    function play(src) {
+      audio.src = src;
+      audio.play().catch(err => console.error("Playback error:", err));
+    }
+
+    window.data = JSON.parse(`{}`);
+    showLanguages();
+  </script>
+</body>
+</html>
